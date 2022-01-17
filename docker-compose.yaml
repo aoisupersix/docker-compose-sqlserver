@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  mssqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    user: "${UID_GID}"
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password!
+      - MSSQL_PID=Express
+      - MSSQL_LCID=1041 # ロケールID 日本語 (https://www.ryadel.com/en/microsoft-windows-lcid-list-decimal-and-hex-all-locale-codes-ids/)
+      - MSSQL_COLLATION=Japanese_CI_AS # 照合順
+    volumes:
+      - ./container-volumes/data:/var/opt/mssql/data
+      - ./container-volumes/log:/var/opt/mssql/log
+      - ./container-volumes/secrets:/var/opt/mssql/sec
